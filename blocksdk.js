@@ -10,20 +10,17 @@ var SDK = function (whitelistOverride, sslOverride) {
 	// the custom block should verify it is being called from
 	// the marketing cloud
 	this._validateOrigin = function (origin) {
-		var whiteterm;
-		var whitelist = whitelistOverride || ['marketingcloudapps.com'];
-		if (sslOverride || origin.indexOf('https://') === 0) {
-			if (origin === 'https://blocktester.herokuapp.com') {
+		// Make sure to escape periods since these strings are used in a regular expression
+		var allowedDomains = whitelistOverride || ['marketingcloudapps\\.com', 'blocktester\\.herokuapp\\.com'];
+		for (var i = 0; i < allowedDomains.length; i++) {
+			// Makes the s optional in https
+			var optionalSsl = sslOverride ? '?' : '';
+			var whitelistRegex = new RegExp('^https' + optionalSsl + '://([a-zA-Z0-9-]+\\.)*' + allowedDomains[i] + '(:[0-9]+)?$', 'i');
+			if (whitelistRegex.test(origin)) {
 				return true;
 			}
-			for (var key in whitelist) {
-				whiteterm = whitelist[key];
-				checkWhite = origin.replace(sslOverride && 'http://' || 'https://', '').split('/')[0].split(':')[0];
-				if (checkWhite.indexOf(whiteterm) === checkWhite.length - whiteterm.length) {
-					return true;
-				}
-			}
 		}
+
 		return false;
 	};
 
