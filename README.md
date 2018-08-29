@@ -1,4 +1,4 @@
-# Salesforce Marketing Cloud Content Builder Editor Block SDK
+# Salesforce Marketing Cloud Content Builder Block SDK
 
 ## Introduction
 
