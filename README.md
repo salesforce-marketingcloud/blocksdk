@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This SDK is intended to simplify 3rd party block development for the Salesforce Marketing Cloud Content Builder Editor.
+This SDK is intended to simplify 3rd party block development for the Salesforce Marketing Cloud Content Builder.
 It provides domain validation and simple method calls wrapping around the cross-document messaging the editor uses to communicate with 3rd party blocks.
 
 ## Installation
