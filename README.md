@@ -110,7 +110,47 @@ callback(:data) | function | Receives the new metadata stored in the block (obje
 
 * This will always overwrite the entire metadata. Any partial data object can cause data loss. Be sure to always extend your current metadata to have a full data object before passing to setData
 
-### Example
+### getUserData(callback(:dataObject))
+
+Get some context for the currently authenticated user. The updated data object is passed into a callback function.
+
+#### Parameters
+
+Name | Type | Description | Required
+--- | --- | --- | ---
+callback(:data) | function | Receives the some data about the currently authenticated user (object) |
+
+#### Notes
+
+* The object argument of the callback contains a `stack` and `locale` property.
+
+### setBlockEditorWidth(width, callback())
+
+Sets the width of the current block.
+
+#### Parameters
+
+Name | Type | Description | Required
+--- | --- | --- | ---
+width | `number` or `string` | The block width. Can be specified as a number, or a string like `500px` | X
+callback() | function | Called once the block has expanded to the specified width |
+
+#### Notes
+
+* width must be >425px and <850px. Percentage widths are not supported.
+* The width is not persisted anywhere, which means that if a block always wants to be 500px wide, the width must be set every time the block is opened.
+
+### triggerAuth(appID)
+
+Opens a hidden iframe to the SSO page for the appID provided. This will result in the block's server side login url (the login URL for the appID) to be passed a JWT so it can request a token.
+
+#### Parameters
+
+Name | Type | Description | Required
+--- | --- | --- | ---
+appID | `string` | The installed package ID or appExchange appID in alphanum xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx `string` format | X
+
+## Example
 
 ```javascript
 var sdk = new window.sfdc.BlockSDK();
