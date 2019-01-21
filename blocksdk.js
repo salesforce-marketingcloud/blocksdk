@@ -122,7 +122,7 @@ SDK.prototype.setSuperContent = function (content, cb) {
 SDK.prototype.triggerAuth = function (appID) {
 	this.getUserData(function (userData) {
 		var stack = userData.stack;
-		if (stack.startsWith('qa')) {
+		if (stack.indexOf('qa') === 0) {
 			stack = stack.substring(3,5) + '.' + stack.substring(0,3);
 		}
 		var iframe = document.createElement('IFRAME');
@@ -132,7 +132,8 @@ SDK.prototype.triggerAuth = function (appID) {
 		iframe.style.position = 'absolute';
 		iframe.style.top = '0';
 		iframe.style.left = '0';
-		iframe.style.display = 'hidden';
+		iframe.style.visibility = 'hidden';
+		iframe.className = 'authframe';
 		document.body.appendChild(iframe);
 	});
 };
@@ -185,7 +186,7 @@ SDK.prototype._receiveMessage = function _receiveMessage (message) {
 // the custom block should verify it is being called from the marketing cloud
 SDK.prototype._validateOrigin = function _validateOrigin (origin) {
 	// Make sure to escape periods since these strings are used in a regular expression
-	var allowedDomains = this._whitelistOverride || ['marketingcloudapps\\.com', 'blocktester\\.herokuapp\\.com'];
+	var allowedDomains = this._whitelistOverride || ['exacttarget\\.com', 'marketingcloudapps\\.com', 'blocktester\\.herokuapp\\.com'];
 
 	for (var i = 0; i < allowedDomains.length; i++) {
 		// Makes the s optional in https
