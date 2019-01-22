@@ -122,7 +122,7 @@ SDK.prototype.setSuperContent = function (content, cb) {
 SDK.prototype.triggerAuth = function (appID) {
 	this.getUserData(function (userData) {
 		var stack = userData.stack;
-		if (stack.startsWith('qa')) {
+		if (stack.indexOf('qa') === 0) {
 			stack = stack.substring(3,5) + '.' + stack.substring(0,3);
 		}
 		var iframe = document.createElement('IFRAME');
@@ -132,7 +132,8 @@ SDK.prototype.triggerAuth = function (appID) {
 		iframe.style.position = 'absolute';
 		iframe.style.top = '0';
 		iframe.style.left = '0';
-		iframe.style.display = 'hidden';
+		iframe.style.visibility = 'hidden';
+		iframe.className = 'authframe';
 		document.body.appendChild(iframe);
 	});
 };
