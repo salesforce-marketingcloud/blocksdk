@@ -31,6 +31,19 @@ var sdk = new SDK();
 // do something with the sdk
 ```
 
+## Initialization Options
+
+- blockEditorWidth
+  - Type: `String|Number`
+  - Default: `undefined`
+  - Set the available width for the block editor.  The editor may restrict the available values.
+- tabs
+  - Type: `Array`
+  - Default: `['stylingblock', 'htmlblock']`
+  - Required: `false`
+  - If provided, the editor will display the Content tab, in addition to the tabs specified. If an empty array is passed,only the Content tab will appear.
+  - See [CustomTabs](#custom-tabs) for documentation
+
 ## Usage
 
 Once you have an instantiated SDK, the following methods are available to you:
@@ -160,4 +173,68 @@ sdk.getContent(function (content) {
     // block content is now its original content + '.'
   });
 });
+```
+
+## Custom Tabs
+
+Custom tabs allow a block to modify which tabs the Content Builder editor loads for the custom block.
+
+The tabs array can be a mix of both `string` and `object` types. The possible string values
+are `stylingblock` and `htmlblock`. The `object` values must provide the following three values.
+- `key`
+    - Type: `string`
+    - This is a unique identifier for the tab, and should be different for every custom tab a block defines.
+    - Ex: `my-custom-tab`
+- `name`
+    - Type: `string` or `object`
+    - The name of the tab. If no localization is needed, provide a `string`. If localization is needed,
+    provide an `object` with key value pairs of the culture code and localized value. If the user's locale
+    is not provided in the object, Content Builder will first try to use the en-US fallback, then fallback 
+    to the first value provided.
+    - Ex: `My Custom Tab` or `{'en-US': 'English Name', 'fr': 'French Name'}`
+- `url`
+    - Type: `string`
+    - The url of the custom block to load. This should be similar to the url entered in Installed Packages
+    - Ex: `https://localhost:3000/customtab`
+
+#### Examples:
+Content tab, Block Style tab
+```
+['stylingblock']
+```
+
+Content tab only
+```
+[]
+```
+
+Content tab, custom tab named 'My Custom Tab'
+```
+[{
+    name: 'My Custom Tab',
+    key: 'customtab',
+    url: 'https://localhost:3000/customtab'
+}]
+```
+
+Content tab, custom tab named 'My Custom Tab', Block Style tab, HTML tab
+```
+[{
+    name: 'My Custom Tab',
+    key: 'customtab',
+    url: 'https://localhost:3000/customtab'
+}, 'stylingblock', 'htmlblock']
+```
+
+
+Content tab, custom tab with different names depending on the user's language
+```
+[{
+    name: {
+        'en-US': 'English Name',
+        'fr': 'French Name'
+    },
+    key: 'localized-tab',
+    url: 'https://localhost:3000/customtab'
+}]
 ```
