@@ -179,6 +179,8 @@ sdk.getContent(function (content) {
 
 Custom tabs allow a block to modify which tabs the Content Builder editor loads for the custom block.
 
+>If you declare a custom tab, the block also displays the Content tab but not the HTML and Block Settings tabs. To display those tabs, declare `htmlblock` and `stylingblock` in your custom tab code.
+
 The tabs array can be a mix of both `string` and `object` types. The possible string values
 are `stylingblock` and `htmlblock`. The `object` values must provide the following three values.
 - `key`
