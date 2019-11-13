@@ -36,7 +36,7 @@ var SDK = function (config, whitelistOverride, sslOverride) {
 
 SDK.prototype.execute = function execute (method, options) {
 	options = options || {};
-	
+
 	var self = this;
 	var payload = options.data;
 	var callback = options.success;
@@ -94,27 +94,27 @@ SDK.prototype.setBlockEditorWidth = function (value, cb) {
 
 SDK.prototype.setCentralData = function (dataObj, cb) {
 	this.execute('setCentralData', {
-		data: dataObj, 
+		data: dataObj,
 		success: cb
 	});
 };
 
 SDK.prototype.setContent = function (content, cb) {
 	this.execute('setContent', {
-		data: content, 
+		data: content,
 		success: cb});
 };
 
 SDK.prototype.setData = function (dataObj, cb) {
 	this.execute('setData', {
-		data: dataObj, 
+		data: dataObj,
 		success: cb
 	});
 };
 
 SDK.prototype.setSuperContent = function (content, cb) {
 	this.execute('setSuperContent', {
-		data: content, 
+		data: content,
 		success: cb
 	});
 };
@@ -138,6 +138,27 @@ SDK.prototype.triggerAuth = function (appID) {
 	});
 };
 
+SDK.prototype.triggerAuth2 = function (authInfo) {
+	var iframe = document.createElement('IFRAME');
+	var scope = '';
+	var state = '';
+	if(Array.isArray(authInfo.scope)) {
+		scope = '&scope=' + authInfo.scope.join('%20');
+	}
+	if(authInfo.state) {
+		state = '&state=' + authInfo.state;
+	}
+	iframe.src = authInfo.authURL + (authInfo.authURL.endsWith('/') ? '':'/') + 'v2/authorize?response_type=code&client_id=' + authInfo.clientId + '&redirect_uri=' + encodeURIComponent(authInfo.redirectURL) + scope + state;
+	iframe.style.width= '1px';
+	iframe.style.height = '1px';
+	iframe.style.position = 'absolute';
+	iframe.style.top = '0';
+	iframe.style.left = '0';
+	iframe.style.visibility = 'hidden';
+	iframe.className = 'authframe';
+	document.body.appendChild(iframe);
+};
+
 /* Internal Methods */
 
 SDK.prototype._executePendingMessages = function _executePendingMessages () {
@@ -145,7 +166,7 @@ SDK.prototype._executePendingMessages = function _executePendingMessages () {
 
 	this._pendingMessages.forEach(function (thisMessage) {
 		self.execute(thisMessage.method, {
-			data: thisMessage.payload, 
+			data: thisMessage.payload,
 			success: thisMessage.callback
 		});
 	});

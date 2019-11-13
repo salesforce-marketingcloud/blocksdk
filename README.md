@@ -163,6 +163,19 @@ Name | Type | Description | Required
 --- | --- | --- | ---
 appID | `string` | The installed package ID or appExchange appID in alphanum xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx `string` format | X
 
+### triggerAuth2({authURL: authURL, clientId: clientId, redirectURL: redirectURL})
+
+Opens a hidden iframe to the OAuth2 page for the authURL provided. This will result in the block's server side redirect url (the login URL for the app) to be passed a OAuth2 code so it can request a token.
+
+#### Parameters
+
+Name | Type | Description | Required
+--- | --- | --- | ---
+authURL | `string` | The enhanced package authURL (auth_uri) in `string` format | X
+clientId | `string` | The enhanced package clientId (client_id) in `string` format | X
+redirectURL | `string` | The enhanced package redirectURL (redirect_uri) in `string` format | X
+scope | `string` array | An array of permissions being requested in [`string`, `string`] format |
+
 ## Example
 
 ```javascript
@@ -191,7 +204,7 @@ are `stylingblock` and `htmlblock`. The `object` values must provide the followi
     - Type: `string` or `object`
     - The name of the tab. If no localization is needed, provide a `string`. If localization is needed,
     provide an `object` with key value pairs of the culture code and localized value. If the user's locale
-    is not provided in the object, Content Builder will first try to use the en-US fallback, then fallback 
+    is not provided in the object, Content Builder will first try to use the en-US fallback, then fallback
     to the first value provided.
     - Ex: `My Custom Tab` or `{'en-US': 'English Name', 'fr': 'French Name'}`
 - `url`
