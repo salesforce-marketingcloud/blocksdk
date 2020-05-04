@@ -1,6 +1,6 @@
 {
   "name": "blocksdk",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "SDK for 3rd party blocks to communicate with the Salesforce Marketing Cloud Content Builder Editor",
   "repository": {
     "type": "git",
