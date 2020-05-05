@@ -15,6 +15,13 @@ var SDK = function (config, whitelistOverride, sslOverride) {
 		config = undefined;
 	}
 
+	if (config && config.onEditClose) {
+		this.handlers = {
+			onEditClose: config.onEditClose
+		};
+		config.onEditClose = true;
+	}
+
 	this._whitelistOverride = whitelistOverride;
 	this._sslOverride = sslOverride;
 	this._messageId = 1;
@@ -191,6 +198,16 @@ SDK.prototype._receiveMessage = function _receiveMessage (message) {
 			this._parentOrigin = data.origin;
 			this._readyToPost = true;
 			this._executePendingMessages();
+			return;
+		}
+	} else if (data.method === 'closeBlock') {
+		if (this._validateOrigin(data.origin)) {
+			// here execute the method before closing the  block editing
+			//onEditClose();
+			if (this.handlers && this.handlers.onEditClose) {
+				this.handlers.onEditClose();
+			}
+			this.execute('blockReadyToClose');
 			return;
 		}
 	}
