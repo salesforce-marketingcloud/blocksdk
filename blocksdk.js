@@ -224,7 +224,7 @@ SDK.prototype._receiveMessage = function _receiveMessage (message) {
 // the custom block should verify it is being called from the marketing cloud
 SDK.prototype._validateOrigin = function _validateOrigin (origin) {
 	// Make sure to escape periods since these strings are used in a regular expression
-	var allowedDomains = this._whitelistOverride || ['exacttarget\\.com', 'marketingcloudapps\\.com', 'blocktester\\.herokuapp\\.com'];
+	var allowedDomains = this._whitelistOverride || ['sfmc-content\\.com','exacttarget\\.com', 'marketingcloudapps\\.com', 'blocktester\\.herokuapp\\.com'];
 
 	for (var i = 0; i < allowedDomains.length; i++) {
 		// Makes the s optional in https
