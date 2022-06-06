@@ -5,13 +5,13 @@
  * For full license text, see LICENSE.txt file in the repo root  or https://opensource.org/licenses/BSD-3-Clause
  */
 
-var SDK = function (config, whitelistOverride, sslOverride) {
+var SDK = function (config, allowlistOverride, sslOverride) {
 	// config has been added as the primary parameter
 	// If it is provided ensure that the other paramaters are correctly assigned
 	// for backwards compatibility
 	if (Array.isArray(config)) {
-		whitelistOverride = config;
-		sslOverride = whitelistOverride;
+		allowlistOverride = config;
+		sslOverride = allowlistOverride;
 		config = undefined;
 	}
 
@@ -22,7 +22,7 @@ var SDK = function (config, whitelistOverride, sslOverride) {
 		config.onEditClose = true;
 	}
 
-	this._whitelistOverride = whitelistOverride;
+	this._allowlistOverride = allowlistOverride;
 	this._sslOverride = sslOverride;
 	this._messageId = 1;
 	this._messages = {
@@ -224,15 +224,15 @@ SDK.prototype._receiveMessage = function _receiveMessage (message) {
 // the custom block should verify it is being called from the marketing cloud
 SDK.prototype._validateOrigin = function _validateOrigin (origin) {
 	// Make sure to escape periods since these strings are used in a regular expression
-	var allowedDomains = this._whitelistOverride || ['exacttarget\\.com', 'marketingcloudapps\\.com', 'blocktester\\.herokuapp\\.com', 'marketingclouddevapps\\.com', 'marketingcloudtestapps\\.com', 'marketingcloudstageapps\\.com'];
+	var allowedDomains = this._allowlistOverride || ['exacttarget\\.com', 'marketingcloudapps\\.com', 'blocktester\\.herokuapp\\.com', 'marketingclouddevapps\\.com', 'marketingcloudtestapps\\.com', 'marketingcloudstageapps\\.com'];
 
 	for (var i = 0; i < allowedDomains.length; i++) {
 		// Makes the s optional in https
 		var optionalSsl = this._sslOverride ? '?' : '';
 		var mcSubdomain = allowedDomains[i] === 'exacttarget\\.com' ? 'mc\\.' : '';
-		var whitelistRegex = new RegExp('^https' + optionalSsl + '://' + mcSubdomain + '([a-zA-Z0-9-]+\\.)*' + allowedDomains[i] + '(:[0-9]+)?$', 'i');
+		var allowlistRegex = new RegExp('^https' + optionalSsl + '://' + mcSubdomain + '([a-zA-Z0-9-]+\\.)*' + allowedDomains[i] + '(:[0-9]+)?$', 'i');
 
-		if (whitelistRegex.test(origin)) {
+		if (allowlistRegex.test(origin)) {
 			return true;
 		}
 	}
